@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Easy Task</string>
+    <string name="title_activity_task_list">TaskList</string>
+
+
+    <string name="action_settings">Settings</string>
+
+    <string-array name="priority_arrays">
+        <item>High</item>
+        <item>Low</item>
+        <item>Medium</item>
+    </string-array>
+    <string-array name="status_arrays">
+        <item>To-DO</item>
+        <item>Completed</item>
+    </string-array>
+</resources>
