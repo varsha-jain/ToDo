@@ -1,4 +1,3 @@
-# ToDo
 # Pre-work - Easy Task-ToDo List
 
 Easy Task-ToDo List is an android app that allows building a todo list and basic todo items management functionality including adding new items, editing and deleting an existing item.
@@ -26,7 +25,8 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you can get done to improve the app functionality!
+* [ Y] List anything else that you can get done to improve the app functionality!
+I am working on the app to add the feature of Notification as well as archiving all the tasks or synching it with cloud. I have also thought of adding the feature to categorize each task as personal, work or others.
 
 ## Video Walkthrough
 
@@ -42,11 +42,12 @@ As part of your pre-work submission, please reflect on the app and answer the fo
 
 **Question 1:** "What are your reactions to the Android app development platform so far? Compare and contrast Android's approach to layouts and user interfaces in past platforms you've used."
 
-**Answer:** [Enter your answer here in a paragraph or two].
+**Answer:** The android app development platform is higly user friendly. Earlier I developed android apps using Eclipse IDE. Aandroid studio is much better than eclipse when it comes to android app development as it is more user friendly. UI customization is easy in android studio as compared to eclipse.
 
 **Question 2:** "Take a moment to reflect on the `ArrayAdapter` used in your pre-work. How would you describe an adapter in this context and what is its function in Android? Why do you think the adapter is important? Explain the purpose of the `convertView` in the `getView` method of the `ArrayAdapter`."
 
-**Answer:** [Enter your answer here in a paragraph or two].
+**Answer:** The array adapter used in my pre-work displays the list of tasks added by the user. The list of tasks is retrieved from the database and displayed on a list view. It's function in android is that it acts as a bridge between UI component and data source. Adapter eases out the process of displaying data on various UI component such as List View, Spinner or Grid View. convertView is used to recycle the old view. The adapter populates each list item with a View object by calling getView() on each row. 
+The Adapter uses the convertView as a way of recycling old View objects that are no longer being used.
 
 ## Notes
 
