@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +20,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.android.easytask.database.ToDoItemsDBHelper;
 import com.android.easytask.pojo.Task;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import todo.android.com.todo.R;
@@ -43,8 +37,6 @@ public class DisplayTaskListActivity extends Activity {
     private String priority = "";
     private int taskID;
 
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +44,6 @@ public class DisplayTaskListActivity extends Activity {
 
         ToDoItemsDBHelper db = new ToDoItemsDBHelper(this);
         List<Task> items = db.getAllTasks();
-        getNotification(items);
         if(items.size() == 0){
             Toast.makeText(this, "No tasks added yet!", Toast.LENGTH_LONG).show();
         }else {
@@ -79,22 +70,14 @@ public class DisplayTaskListActivity extends Activity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
-                    System.out.println("INSIDE ON CLICK FOR LIST ITEM");
                     String selectedItem = listView.getItemAtPosition(position).toString();
                     Task task = getTask(selectedItem);
                     taskID = task.getTaskID();
-                    //System.out.println(taskID);
                     taskName = task.getTaskName();
                     taskDsec = task.getDescription();
                     status = task.getStatus();
                     date = task.getDate();
                     priority = task.getPriority();
-                    System.out.println(taskID);
-                    System.out.println(taskName);
-                    System.out.println(taskDsec);
-                    System.out.println(status);
-                    System.out.println(date);
-                    System.out.println(priority);
                     showDialog();
 
                 }
@@ -110,10 +93,7 @@ public class DisplayTaskListActivity extends Activity {
         String[] name = array[0].split(":");
         String[] da = array[1].split(":");
         String[] pr = array[2].split(":");
-        System.out.println("****" + name[1].trim());
-        System.out.println("****" + da[1].trim());
         int month = getMonth(da[1].trim());
-        //int month = Integer.parseInt(da[1].trim());
         month = month - 1;
         String newMonth = String.valueOf(month);
         ToDoItemsDBHelper db = new ToDoItemsDBHelper(DisplayTaskListActivity.this);
@@ -143,8 +123,6 @@ public class DisplayTaskListActivity extends Activity {
         String[] dateSplit = date.split("/");
         int day = Integer.parseInt(dateSplit[0]);
         int month = Integer.parseInt(dateSplit[1]);
-        System.out.println("month shown is:" + month);
-        //month = month - 1;
         int year = Integer.parseInt(dateSplit[2]);
         dp.init(year, month, day, null);
         // setup a dialog window
@@ -234,11 +212,6 @@ public class DisplayTaskListActivity extends Activity {
                 tn.setText("");
                 desc.setText("");
                 Intent i = new Intent(DisplayTaskListActivity.this, DisplayTaskListActivity.class);
-                i.putExtra("TaskName", taskName);
-                i.putExtra("Description", taskDsec);
-                i.putExtra("Date", date);
-                i.putExtra("Status", status);
-                i.putExtra("Priority", priority);
                 startActivity(i);
                 finish();
             }else{
@@ -247,50 +220,6 @@ public class DisplayTaskListActivity extends Activity {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void getNotification(List<Task> items){
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
-        notificationIntent.addCategory("android.intent.category.DEFAULT");
-        PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        System.out.println("INSIDE GET NOTIFICATION METHOD**");
-
-        String currentDate = getCurrentDate();
-        String[] currDate = currentDate.split("/");
-        int currDay = Integer.parseInt(currDate[0].replaceFirst("^0+(?!$)", ""));
-        int currMonth = Integer.parseInt(currDate[1].replaceFirst("^0+(?!$)", ""));
-        int currYear = Integer.parseInt(currDate[2].replaceFirst("^0+(?!$)", ""));
-        for(Task task : items){
-            Calendar cal = Calendar.getInstance();
-            System.out.println("INSIDE FOR LOOP***");
-            String taskDateRetrieved = task.getDate();
-            System.out.println("RETRIEVED DATE OF TASK IS: ***" + taskDateRetrieved);
-            String[] dateSplit = taskDateRetrieved.split("/");
-            int day = Integer.parseInt(dateSplit[0]);
-            int month = Integer.parseInt(dateSplit[1]);
-            int year = Integer.parseInt(dateSplit[2]);
-            month = month +1;
-            if( (day == currDay) && ((month) == currMonth) && (year == currYear)){
-                System.out.println("INSIDE IF LOOP");
-
-                cal.set(year,month,day);
-                cal.setTimeInMillis(System.currentTimeMillis());
-                long time = 2*60*60*1000; //in mili seconds
-                System.out.println("YEAR*****"+ cal.YEAR);
-                notificationIntent.putExtra("taskName", task.getTaskName());
-                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), time, broadcast);
-            }
-
-        }
-
-    }
-    public String getCurrentDate(){
-        Date date = Calendar.getInstance().getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        System.out.println("CURRENT DATE: " + sdf.format(date));
-        return sdf.format(date);
-    }
 
 
 }

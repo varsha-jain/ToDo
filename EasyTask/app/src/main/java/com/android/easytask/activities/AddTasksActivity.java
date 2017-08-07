@@ -63,11 +63,6 @@ public class AddTasksActivity extends AppCompatActivity {
             tn.setText("");
             desc.setText("");
             Intent i = new Intent(this, DisplayTaskListActivity.class);
-            i.putExtra("TaskName", taskName);
-            i.putExtra("Description", taskDsec);
-            i.putExtra("Date",date);
-            i.putExtra("Status", status);
-            i.putExtra("Priority", priority);
             startActivity(i);
             finish();
 
